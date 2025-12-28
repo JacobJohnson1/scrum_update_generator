@@ -18,7 +18,12 @@ prev_str = previous_weekday.strftime("%m-%d")
 # File name based on today's date
 file_name = f"scrumUpdate{today_str}.txt"
 prev_file = f"scrumUpdate{prev_str}.txt"
-desktop_path = os.path.join(os.path.expanduser("C:/Users/jjohnso1/OneDrive - Missouri Employers Mutual Ins/Desktop"))
+
+# for work computer:
+# desktop_path = os.path.join(os.path.expanduser("C:/Users/jjohnso1/OneDrive - Missouri Employers Mutual Ins/Desktop"))
+# for home laptop:
+desktop_path = os.path.join(os.path.expanduser("/home/jacob/Desktop"))
+
 file_name = os.path.join(desktop_path, f"scrumUpdate{today_str}.txt")
 
 # Updates/Blockers
@@ -35,19 +40,14 @@ with open(file_name, "w") as file:
     file.write(f"\nBlockers: \n")
     file.write(f"{blockers} \n")
     
-# Delete previous weekday's file if it exists
-if os.path.exists(prev_file):
-    os.remove(prev_file)
-    print(f"Deleted previous file: {prev_file}")
+# Delete any/all previous file(s) if exists
+pattern = re.compile(r"^scrumUpdate\d+-\d+\.txt$")
 
-# still working on this stuff to delete all previous files
-# pattern = re.compile(r"^scrumUpdate\d+$")
-
-# for filename in os.path(desktop_path):  # or a specific directory
-#     if pattern.match(filename):
-#         filepath = os.path.join(".", filename)
-#         if os.path.exists(filepath):
-#             os.remove(filepath)
-#             print(f"Deleted previous file: {filepath}")
-# else:
-#     print(f"No previous file(s) to delete.")
+for filename in os.listdir(desktop_path):  # or a specific directory
+    if pattern.match(filename):
+        filepath = os.path.join(desktop_path, filename)
+        if os.path.exists(filepath):
+            os.remove(filepath)
+            print(f"Deleted previous file: {filepath}")
+else:
+    print(f"No previous file(s) to delete.")
