@@ -19,28 +19,19 @@ prev_str = previous_weekday.strftime("%m-%d")
 file_name = f"scrumUpdate{today_str}.txt"
 prev_file = f"scrumUpdate{prev_str}.txt"
 
-# for work computer:
-# desktop_path = os.path.join(os.path.expanduser("C:/Users/jjohnso1/OneDrive - Missouri Employers Mutual Ins/Desktop"))
+# for work computer (build from the home directory for portability):
+desktop_path = os.path.join(os.path.expanduser("~"), "OneDrive - Missouri Employers Mutual Ins", "Desktop")
 # for home laptop:
-desktop_path = os.path.join(os.path.expanduser("/home/jacob/Desktop"))
+# desktop_path = os.path.join(os.path.expanduser("/home/jacob/Desktop"))
 
 file_name = os.path.join(desktop_path, f"scrumUpdate{today_str}.txt")
 
 # Updates/Blockers
-yesterdaysUpdate = "- work done from yesterday\n- and another line from yesterday"
-todaysUpdate = "- scrum update for today\n- line 2"
+yesterdaysUpdate = "- work done from yesterday"
+todaysUpdate = "- scrum update for today\n line 2"
 blockers = "- here's what's holding me up"
 
-# Write to file
-with open(file_name, "w") as file:
-    file.write(f"Yesterday: ({prev_str})\n")
-    file.write(f"{yesterdaysUpdate} \n")
-    file.write(f"\nToday: ({today_str})\n")
-    file.write(f"{todaysUpdate} \n")
-    file.write(f"\nBlockers: \n")
-    file.write(f"{blockers} \n")
-    
-# Delete any/all previous file(s) if exists
+# Delete any/all previous file(s) if exists FIRST
 pattern = re.compile(r"^scrumUpdate\d+-\d+\.txt$")
 
 for filename in os.listdir(desktop_path):  # or a specific directory
@@ -51,3 +42,15 @@ for filename in os.listdir(desktop_path):  # or a specific directory
             print(f"Deleted previous file: {filepath}")
 else:
     print(f"No previous file(s) to delete.")
+
+# Write to file
+print(f"Writing to: {file_name}")
+with open(file_name, "w") as file:
+    file.write(f"Yesterday: ({prev_str})\n")
+    file.write(f"{yesterdaysUpdate} \n")
+    file.write(f"\nToday: ({today_str})\n")
+    file.write(f"{todaysUpdate} \n")
+    file.write(f"\nBlockers: \n")
+    file.write(f"{blockers} \n")
+
+print(f"File created successfully: {file_name}")
